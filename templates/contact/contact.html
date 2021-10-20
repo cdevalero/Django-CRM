@@ -1,0 +1,62 @@
+{% extends 'sidebar.html' %} 
+{% block content %}
+<div class="container-fluid px-3 mt-3">
+    <h1 class="h3 mb-3 text-gray-800">User Representative</h1>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    User Mail Address
+                                </div>
+                            </th>
+                            <th>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    Options
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="align-middle">mail@mail.com</td>
+                            <td>
+                                <div class="d-flex justify-content-center align-middle gap-2">
+                                    <a href="#" class="btn btn-primary">
+                                        Consult
+                                    </a>
+                                    <a href="#" class="btn btn-primary">
+                                        Update
+                                    </a>
+                                    <a href="#" class="btn btn-primary">
+                                        Resent Email
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle">mail@mail.com</td>
+                            <td>
+                                <div class="d-flex justify-content-center align-middle gap-2">
+                                    <a href="#" class="btn btn-primary">
+                                        Consult
+                                    </a>
+                                    <a href="#" class="btn btn-primary">
+                                        Update
+                                    </a>
+                                    <a href="#" class="btn btn-primary">
+                                        Resent Email
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

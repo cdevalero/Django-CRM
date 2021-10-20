@@ -26,4 +26,12 @@
         </div>
     </div>
 </div>
+<script>
+    function cancel(){
+        var result = confirm('are you sure you want to cancel the register of the new service ?”');
+        if (result === true) {
+           location.href = "{% url 'service' %}";
+        }
+    }
+</script>
 {% endblock content %}

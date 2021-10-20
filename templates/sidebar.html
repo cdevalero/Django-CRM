@@ -27,7 +27,7 @@
                         </li>
                         <li>
                             <a href="#submenu1" data-bs-toggle="collapse" class="text-black nav-link px-0 align-middle ">
-                                <i class="fs-4 bi-person"></i> <span class="ms-1 d-none d-sm-inline">Representative</span></a>
+                            <i class="fs-4 bi-person"></i> <span class="ms-1 d-none d-sm-inline">Representative</span></a>
                             <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                                 <li class="w-100">
                                     <a href="#" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Create representative</span></a>
@@ -45,10 +45,10 @@
                                 <i class="fs-4 bi-briefcase"></i> <span class="ms-1 d-none d-sm-inline">Services</span></a>
                             <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
                                 <li class="w-100">
-                                    <a href="#" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Create new service</span></a>
+                                    <a href="{% url 'createService' %}" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Create new service</span></a>
                                 </li>
                                 <li class="w-100">
-                                    <a href="#" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> List of services</span></a>
+                                    <a href="{% url 'service' %}" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> List of services</span></a>
                                 </li>
                             </ul>
                         </li>

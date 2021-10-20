@@ -29,9 +29,11 @@ INSTALLED_APPS = [
 
     # django crm apps
     'user',
+    'sales',
 
     # packages
     'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [

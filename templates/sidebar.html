@@ -12,9 +12,9 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light border-end">
+    <div class="container-fluid overflow-hidden">
+        <div class="row flex-nowrap vh-100 overflow-auto">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light border-end sticky-top">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-black min-vh-100 ">
                     <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-black text-decoration-none">
                         <span class="fs-5 d-none d-sm-inline">CRM</span>
@@ -49,6 +49,9 @@
                                 </li>
                                 <li class="w-100">
                                     <a href="{% url 'service' %}" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> List of services</span></a>
+                                </li>
+                                <li class="w-100">
+                                    <a href="{% url 'serviceStatus' %}" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Inactive or active</span></a>
                                 </li>
                             </ul>
                         </li>

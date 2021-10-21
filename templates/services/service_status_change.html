@@ -1,4 +1,4 @@
-{% extends 'sidebar.html' %} 
+{% extends 'sidebar.html' %}
 {% block content %}
 <div class="container-fluid px-3 mt-3">
     <h1 class="h3 mb-3 text-gray-800">Services</h1>
@@ -15,9 +15,9 @@
                             <td class="align-left"><strong>Status </strong></td>
                             <td class="align-left">
                                 {% if context.status %}
-                                    Activated
+                                Activated
                                 {% else %}
-                                    Deactivate
+                                Deactivate
                                 {% endif %}
                             </td>
                         </tr>
@@ -31,6 +31,22 @@
                         </tr>
                     </tbody>
                 </table>
+                <form method="post">
+                    {% csrf_token %}
+                    <input 
+                        type="submit" 
+                        value="{% if context.status %} Inactive {% else %} Active {% endif %}"
+                        class="btn {% if context.status %} btn-secondary {% else %} btn-primary {% endif %} d-flex justify-content-center align-middle"
+                    >
+                </form>
+
+                <!-- <a href="{% url 'changeServiceStatus' context.id %}" class="btn {% if context.status %} btn-secondary {% else %} btn-primary {% endif %} d-flex justify-content-center align-middle">
+                    {% if context.status %}
+                        Inactive
+                    {% else %}
+                        Active
+                    {% endif %}
+                </a> -->
             </div>
         </div>
     </div>

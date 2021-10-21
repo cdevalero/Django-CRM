@@ -37,13 +37,14 @@
                         <tr>
                             <td class="align-middle">{{row.name}}</td>
                             <td>
-                                <div class="d-flex justify-content-center align-middle gap-2">
-                                    <a href="{% url 'viewService' row.id %}" class="btn btn-primary">
-                                        Consult
-                                    </a>
-                                    <a href="{% url 'updateService' row.id %}" class="btn btn-primary">
-                                        Update
-                                    </a>
+                                <div class="d-flex justify-content-center align-middle">
+                                    <a href="{% url 'changeServiceStatus' row.id %}" class="btn {% if row.status %} btn-secondary {% else %} btn-primary {% endif %}">
+                                        {% if row.status %}
+                                            Inactive
+                                        {% else %}
+                                            Active
+                                        {% endif %}
+                                    </a>                                        
                                 </div>
                             </td>
                         </tr>

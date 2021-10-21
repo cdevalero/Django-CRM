@@ -17,7 +17,7 @@ class FormService(forms.ModelForm):
     )
     class Meta:
         model = Service;
-        fields = ('name','service_description','service_description_agreement')
+        fields = ('name','service_description','service_description_agreement', 'status')
     status = forms.ChoiceField(choices=CHOICE, label='Status')
 
     helper = FormHelper()
@@ -29,6 +29,28 @@ class FormService(forms.ModelForm):
     
     FormActions(
             Submit('register', 'Register', css_class="btn-primary"),
+            HTML('<a class="btn btn-danger" onclick="cancel()">Cancel</a>'),
+            
+        )
+    )
+
+class FormServiceUpdate(forms.ModelForm):
+    CHOICE = (
+        (True,'Activate'),
+        (False,'Deactivate'),
+    )
+    class Meta:
+        model = Service;
+        fields = ('name','service_description','service_description_agreement')
+
+    helper = FormHelper()
+    helper.layout = Layout(
+        Field('name', css_class='input-xlarge mb-3'),
+        Field('service_description', rows="3", css_class='input-xlarge mb-3'),
+        Field('service_description_agreement', rows="3", css_class='input-xlarge mb-3'),
+    
+    FormActions(
+            Submit('register', 'Update', css_class="btn-primary"),
             HTML('<a class="btn btn-danger" onclick="cancel()">Cancel</a>'),
             
         )

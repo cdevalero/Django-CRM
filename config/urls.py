@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.urls import path
 from user.views import test
@@ -15,4 +14,6 @@ urlpatterns = [
     path('updateService/<id>', updateService, name='updateService'),
     path('serviceStatus/', serviceStatus, name='serviceStatus'),
     path('changeServiceStatus/<id>', changeServiceStatus, name='changeServiceStatus'),
+
+    
 ]

@@ -8,7 +8,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, HTML, Field
 from crispy_forms.bootstrap import FormActions
 
-from .models import Service
+from .models import Sale, Service
 
 class FormService(forms.ModelForm):
     CHOICE = (
@@ -30,9 +30,9 @@ class FormService(forms.ModelForm):
     FormActions(
             Submit('register', 'Register', css_class="btn-primary"),
             HTML('<a class="btn btn-danger" onclick="cancel()">Cancel</a>'),
-            
         )
     )
+
 
 class FormServiceUpdate(forms.ModelForm):
     CHOICE = (
@@ -52,6 +52,11 @@ class FormServiceUpdate(forms.ModelForm):
     FormActions(
             Submit('register', 'Update', css_class="btn-primary"),
             HTML('<a class="btn btn-danger" onclick="cancel()">Cancel</a>'),
-            
         )
     )
+
+
+class FormSale(forms.ModelForm):
+    class Meta:
+        model = Sale
+        fields = ('name','service_description','service_description_agreement', 'status')

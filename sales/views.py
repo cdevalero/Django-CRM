@@ -54,6 +54,7 @@ def serviceStatus(request):
     context = Service.objects.all()
     return render(request, 'services/service_status.html', {'context': context})
 
+
 def changeServiceStatus(request, id):
     try:
         context = Service.objects.get(id= id)
@@ -68,7 +69,8 @@ def changeServiceStatus(request, id):
             messages.success(request, 'The service has been Activated successfully')
             context.status= True
         context.save(update_fields=['status'])
-        
         return redirect('serviceStatus')
 
     return render(request, 'services/service_status_change.html', {'context': context})
+
+

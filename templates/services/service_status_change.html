@@ -31,24 +31,25 @@
                         </tr>
                     </tbody>
                 </table>
-                <form method="post">
+                <form method="post" name='form'>
                     {% csrf_token %}
                     <input 
-                        type="submit" 
-                        value="{% if context.status %} Inactive {% else %} Active {% endif %}"
+                        type=button
+                        onclick="confirmChange()"
+                        value="{% if context.status %} Inactive service {% else %} Active service{% endif %}"
                         class="btn {% if context.status %} btn-secondary {% else %} btn-primary {% endif %} d-flex justify-content-center align-middle"
                     >
                 </form>
-
-                <!-- <a href="{% url 'changeServiceStatus' context.id %}" class="btn {% if context.status %} btn-secondary {% else %} btn-primary {% endif %} d-flex justify-content-center align-middle">
-                    {% if context.status %}
-                        Inactive
-                    {% else %}
-                        Active
-                    {% endif %}
-                </a> -->
             </div>
         </div>
     </div>
 </div>
+<script>
+function confirmChange() {
+    var result = confirm('Are you sure that you wish to inactivate this service?');
+    if (result === true) {
+        document.form.submit();
+    }
+}
+</script>
 {% endblock content %}

@@ -5,8 +5,9 @@ from user.views import test
 from sales.views import createService, service, viewService, updateService, serviceStatus, changeServiceStatus
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
-    path('test/', test, name='test'),
+    path('', service, name='test'),
 
     path('createService/', createService, name='createService'),
     path('service/', service, name='service'),

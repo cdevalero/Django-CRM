@@ -61,6 +61,14 @@ def changeServiceStatus(request, id):
         return redirect('serviceStatus')
 
     if request.method == 'POST':
-        print(context)        
+        if context.status:
+            messages.success(request, 'The service has been Inactivated successfully')
+            context.status= False  
+        else: 
+            messages.success(request, 'The service has been Activated successfully')
+            context.status= True
+        context.save(update_fields=['status'])
+        
+        return redirect('serviceStatus')
 
     return render(request, 'services/service_status_change.html', {'context': context})

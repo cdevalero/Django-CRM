@@ -18,12 +18,12 @@
         <div class="row flex-nowrap vh-100 overflow-auto">
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light border-end sticky-top">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-black min-vh-100 ">
-                    <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-black text-decoration-none">
+                    <a href="{% url 'dashboard' %}" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-black text-decoration-none">
                         <span class="fs-5 d-none d-sm-inline">CRM</span>
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                         <li class="nav-item">
-                            <a href="#" class="nav-link align-middle text-black px-0">
+                            <a href="{% url 'dashboard' %}" class="nav-link align-middle text-black px-0">
                                 <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span>
                             </a>
                         </li>
@@ -86,10 +86,10 @@
                                 <i class="fs-4 bi-calendar-event"></i> <span class="ms-1 d-none d-sm-inline">Calendar</span></a>
                             <ul class="collapse nav flex-column ms-1" id="submenu5" data-bs-parent="#menu">
                                 <li class="w-100">
-                                    <a href="#" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Create new event</span></a>
+                                    <a href="{% url 'createEvent' %}" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Create new event</span></a>
                                 </li>
                                 <li class="w-100">
-                                    <a href="#" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> List of event</span></a>
+                                    <a href="{% url 'viewEvent' %}" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> List of event</span></a>
                                 </li>
                             </ul>
                         </li>
@@ -97,10 +97,10 @@
                     <hr>
                     <div class="dropdown pb-4">
                         <a href="#" class="d-flex align-items-center text-black text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="d-none d-sm-inline mx-1">mail@mail.com</span>
+                            <span class="d-none d-sm-inline mx-1">{{user.user_email}}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-light text-small shadow">
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
                         </ul>
                     </div>
                 </div>

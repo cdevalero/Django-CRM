@@ -2,6 +2,7 @@
 import os
 from pathlib import Path
 from django.contrib.messages import constants as message_constants
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -99,7 +100,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Custom User Model
 AUTH_USER_MODEL = 'user.crmUser'
-
+LOGIN_REDIRECT_URL = reverse_lazy('service')
+LOGIN_URL = 'login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

@@ -1,4 +1,48 @@
-{% extends 'sidebar.html' %} 
+{% extends 'sidebar.html' %}
+{% load crispy_forms_tags %}
+{% block headlinks %}
+<!-- https://www.daterangepicker.com/ -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+{% endblock headlinks %}
 {% block content %}
-
+<div class="container-fluid mt-5 pb-5">
+    <h1 class="h3 mb-2 text-gray-800">Contact</h1>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            {% if messages %}
+            <div class="row mt-3 mb-3">
+                <div class="col-12">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            <form action="" method="post" id="send" class="mt-2" autocomplete="off">
+                {% csrf_token %}
+                {% crispy form %}
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+function cancel() {
+    var result = confirm('are you sure you want to cancel the register of the new contact ?');
+    if (result === true) {
+        location.href = "{% url 'contact' %}";
+    }
+}
+$('#send').submit(function() {
+    document.getElementById("id_country").disabled = false;
+    document.getElementById("id_id_representative").disabled = false;
+    document.getElementById("id_id_representative").value='COUNTRY';
+    document.getElementById("id_id_representative").value='1';
+    return true;
+});
+</script>
 {% endblock content %}

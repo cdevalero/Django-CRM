@@ -1,4 +1,56 @@
-{% extends 'sidebar.html' %} 
+{% extends 'sidebar.html' %}
 {% block content %}
-
+<div class="container-fluid px-3 mt-3">
+    <h1 class="h3 mb-3 text-gray-800">Sales</h1>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordeless" id="dataTable" width="100%" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td class="align-left" style="width: 30%"><strong>Sale Name </strong></td>
+                            <td class="align-left">{{context.id_sale}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Description </strong></td>
+                            <td class="align-left">{{context.description}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Status </strong></td>
+                            <td class="align-left">{{context.status}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Process sale status </strong></td>
+                            <td class="align-left">{{context.process_sale_status}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Register Date Sale </strong></td>
+                            <td class="align-left">{{context.register_date_sale}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Contract start </strong></td>
+                            <td class="align-left">{{context.contract_start}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Contract end </strong></td>
+                            <td class="align-left">{{context.contract_end}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Representative </strong></td>
+                            <td class="align-left">{{context.id_representative}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Client </strong></td>
+                            <td class="align-left">{{context.id_client}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Country </strong></td>
+                            <td class="align-left">{{context.country}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

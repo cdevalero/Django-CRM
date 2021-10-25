@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # django crm apps
     'user',
     'sales',
+    'event',
 
     # packages
     'crispy_forms',

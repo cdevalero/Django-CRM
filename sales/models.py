@@ -14,11 +14,15 @@ class Service(models.Model):
 
 	
 class Client(models.Model):
+	STATUS = (
+        (True,'Is client'),
+        (False,'Not Client'),
+    )
 	name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	email = models.EmailField(unique=True)
 	phone_number = models.IntegerField()
-	status = models.BooleanField()
+	status = models.BooleanField(choices=STATUS)
 	register_date = models.DateTimeField(default=now, editable=False)
 	country = models.CharField(max_length=100)
 	twitter = models.CharField(max_length=100, unique=True, blank=True, null=True)
@@ -27,15 +31,25 @@ class Client(models.Model):
 	other_social_network = models.CharField(max_length=100, unique=True, blank=True, null=True)
 	id_representative = models.ForeignKey(crmUser, on_delete=CASCADE)
 
-	def __str__(self):
-		return self.email
-
 
 class Sale(models.Model):
-	name = models.CharField(max_length=100)
+	PROCESS = (
+		('Registered','Registered'),
+        ('await','await'),
+        ('Trained','Trained'),
+        ('Registered','Registered'),
+        ('close','close'),
+	)
+	STATUS = (
+		('successfully','successfully'),
+		('in process','in process'),
+		('no successfully.','no successfully'),
+	)
+
+	# name = models.CharField(max_length=100)
 	description = models.TextField()
-	sale_status = models.CharField(max_length=50)
-	process_sale_status = models.CharField(max_length=50)
+	status = models.CharField(max_length=50, choices=STATUS)
+	process_sale_status = models.CharField(max_length=50, choices=PROCESS)
 	country = models.CharField(max_length=100)
 	register_date_sale = models.DateTimeField()
 	contract_start = models.DateTimeField()

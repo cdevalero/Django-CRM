@@ -1,4 +1,66 @@
-{% extends 'sidebar.html' %} 
+{% extends 'sidebar.html' %}
+{% load crispy_forms_tags %}
+{% block headlinks %}
+<!-- https://www.daterangepicker.com/ -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+{% endblock headlinks %}
 {% block content %}
+<div class="container-fluid mt-5 pb-5">
+    <h1 class="h3 mb-2 text-gray-800">Sale</h1>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            {% if messages %}
+            <div class="row mt-3 mb-3">
+                <div class="col-12">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            <form action="" method="post" class="mt-2" id="send" autocomplete="off">
+                {% csrf_token %}
+                {% crispy form %}
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+function cancel() {
+    var result = confirm('are you sure you want to cancel the register of the new sale ?');
+    if (result === true) {
+        location.href = "{% url 'sales' %}";
+    }
+}
+$('#send').submit(function() {
+    let time = $('input[name="contract_start"]').val().split(' / ');
+    document.getElementById("id_contract_start").value=time[0];
+    document.getElementById("id_contract_end").value=time[1];
+    return true;
+});
+</script>
+<script type="text/javascript">
+$(function() {
 
-{% endblock content %}
+    $('input[name="contract_start"]').daterangepicker({ 
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        }
+    });
+
+    $('input[name="contract_start"]').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD-MM-YYYY') + ' / ' + picker.endDate.format('DD-MM-YYYY'));
+    });
+
+    $('input[name="contract_start"]').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+});
+</script>
+{% endblock content %} 

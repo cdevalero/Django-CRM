@@ -41,9 +41,11 @@
                                     <a href="{% url 'viewService' row.id %}" class="btn btn-primary">
                                         Consult
                                     </a>
+                                    {% if request.user.is_staff %}
                                     <a href="{% url 'updateService' row.id %}" class="btn btn-primary">
                                         Update
                                     </a>
+                                    {% endif %}
                                 </div>
                             </td>
                         </tr>

@@ -40,3 +40,7 @@ def userDashboard(request):
 		return render(request, 'dashboard/admin_dashboard.html')
 	else:
 		return render(request, 'dashboard/representative_dashboard.html')
+
+
+def userRecovery(request):
+	return render(request, 'login/recovery.html')

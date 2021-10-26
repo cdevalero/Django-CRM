@@ -1,4 +1,48 @@
 {% extends 'sidebar.html' %} 
 {% block content %}
-
+<div class="container-fluid px-3 mt-3">
+    <h1 class="h3 mb-3 text-gray-800">Representative</h1>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordeless" id="dataTable" width="100%" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td class="align-left" style="width: 30%"><strong>Name of the representative user </strong></td>
+                            <td class="align-left">{{context.name}} {{context.last_name}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>DNI</strong></td>
+                            <td class="align-left">{{context.dni}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Address</strong></td>
+                            <td class="align-left">{{context.address}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Phone</strong></td>
+                            <td class="align-left">{{context.phone_number}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Personal email</strong></td>
+                            <td class="align-left">{{context.personal_email}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Corporative Email</strong></td>
+                            <td class="align-left">{{context.user_email}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Country</strong></td>
+                            <td class="align-left">{{context.country}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Status</strong></td>
+                            <td class="align-left">{% if context.status %} Active {% else %} Inactive {% endif %}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

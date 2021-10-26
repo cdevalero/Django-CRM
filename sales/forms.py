@@ -1,14 +1,9 @@
 from django import forms
-
 from django.forms import DateInput
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, HTML, Field
 from crispy_forms.bootstrap import FormActions, UneditableField
-
 from .models import Client, Sale, Service
-
-from django import forms
 
 class FormService(forms.ModelForm):
     CHOICE = (
@@ -19,6 +14,13 @@ class FormService(forms.ModelForm):
         model = Service;
         fields = ('name','service_description','service_description_agreement', 'status')
     status = forms.ChoiceField(choices=CHOICE, label='Status')
+
+    def __init__(self, *args, **kwargs):
+        super(FormService, self).__init__(*args, **kwargs)
+        self.fields['name'].label = "Name of the services"
+        self.fields['service_description'].label = "Description of the service"
+        self.fields['service_description_agreement'].label = "Description of Services agreement"
+        self.fields['status'].label = "Status of the service"
 
     helper = FormHelper()
     helper.layout = Layout(
@@ -35,19 +37,25 @@ class FormService(forms.ModelForm):
 
 
 class FormServiceUpdate(forms.ModelForm):
-    CHOICE = (
-        (True,'Activate'),
-        (False,'Deactivate'),
-    )
     class Meta:
         model = Service;
         fields = ('name','service_description','service_description_agreement')
+
+    def __init__(self, *args, **kwargs):
+        super(FormServiceUpdate, self).__init__(*args, **kwargs)
+        self.fields['name'].label = "Name of the services"
+        self.fields['service_description'].label = "Description of the service"
+        self.fields['service_description_agreement'].label = "Description of Services agreement"
 
     helper = FormHelper()
     helper.layout = Layout(
         Field('name', css_class='input-xlarge mb-3'),
         Field('service_description', rows="3", css_class='input-xlarge mb-3'),
         Field('service_description_agreement', rows="3", css_class='input-xlarge mb-3'),
+        HTML('''
+            <label class=" requiredField">Status of the service<span class="asteriskField">*</span></label>
+            <div class="input-xlarge mb-3 form-control"> Activate </div>
+            '''),
     
     FormActions(
             Submit('register', 'Update', css_class="btn-primary"),

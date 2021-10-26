@@ -33,13 +33,13 @@
                                 <i class="fs-4 bi-person"></i> <span class="ms-1 d-none d-sm-inline">Representative</span></a>
                             <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                                 <li class="w-100">
-                                    <a href="#" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Create representative</span></a>
+                                    <a href="{% url 'createRepresentative' %}" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Create representative</span></a>
                                 </li>
                                 <li class="w-100">
-                                    <a href="#" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Representatives user</span></a>
+                                    <a href="{% url 'representatives' %}" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Representatives user</span></a>
                                 </li>
                                 <li class="w-100">
-                                    <a href="#" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Inactive or active</span></a>
+                                    <a href="{% url 'representativeStatus' %}" class="nav-link px-0"> <span class="d-none text-black  d-sm-inline"><i class="bi bi-dot"></i> Inactive or active</span></a>
                                 </li>
                             </ul>
                         </li>

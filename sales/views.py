@@ -57,6 +57,7 @@ def updateService(request, id):
                 return redirect('service')
             else:
                 messages.error(request, 'The information entered is invalid, please check and try again')
+                return redirect('service')
 
         form = FormServiceUpdate(instance= row)
         return render(request, 'services/create_service.html', {'form': form})

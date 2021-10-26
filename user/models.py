@@ -41,7 +41,6 @@ class crmUser(AbstractBaseUser):
 	dni = models.IntegerField('DNI', unique=True, blank=True, null=True)
 	address = models.TextField('Address', blank=True, null=True)
 	phone_number = models.IntegerField('Phone number', blank=True, null=True)
-	# history_last_access = models.DateTimeField('Last aceess', blank=True, null=True)
 	country = models.CharField('Country', max_length=100, blank=True, null=True)
 
 

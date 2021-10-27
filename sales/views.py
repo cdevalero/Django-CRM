@@ -1,9 +1,9 @@
+from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import FormContact, FormService, FormServiceUpdate, FormSale
+from .forms import FormContact, FormContactUpdate, FormService, FormServiceUpdate, FormSale, FormSaleUpdate
 from .models import Client, Service, Sale
-
 
 #------------------------------- Service ------------------------------- 
 @login_required
@@ -105,24 +105,25 @@ def changeServiceStatus(request, id):
 @login_required
 def sales(request):
     if not request.user.is_staff:
-        context = Sale.objects.all()
+        context = Sale.objects.filter(id_representative= request.user.id)
         return render(request, 'sales/sales.html', {'context': context})
     else:
         messages.error(request, 'You do not have permission to enter')
         return redirect('dashboard')
 
 
-# Working
 @login_required
 def createSale(request): 
     if not request.user.is_staff:
         if request.method == 'POST':
-            form = FormSale(request.POST)
-            if form.is_valid():
-                pass
-                # form.save()
-                # return render(request, 'sales/create_other_sales.html')
-        form = FormSale(initial={'process_sale_status': 'Registered', 'status': 'in process'})
+            form = FormSale(request.user,request.POST)
+            if form.is_valid() and form.contract_period() and form.clean_representative(request.user.id, request.user.country) and form.init_status():
+                form.save() 
+                return render(request, 'sales/create_other_sales.html')
+            else:
+                messages.error(request, 'The information entered is invalid, please check and try again')
+
+        form = FormSale(request.user,initial={'process_sale_status': 'Registered', 'status': 'in process', 'contract': 'dd-mm-aaaa / dd-mm-aaaa','id_representative': request.user.id, 'country': request.user.country})
         return render(request, 'sales/create_sales.html', {'form': form})
     else:
         messages.error(request, 'You do not have permission to enter')
@@ -130,62 +131,68 @@ def createSale(request):
 
 
 @login_required
-def viewSale(request):
+def viewSale(request, id):
     if not request.user.is_staff:
         try:
             context = Sale.objects.get(id= id)
         except Sale.DoesNotExist:        
             return redirect('sales')
 
-        return render(request, 'sales/consult_sales.html', {'context': context})
-    else:
-        messages.error(request, 'You do not have permission to enter')
-        return redirect('dashboard')
+        if context.id_representative == request.user:
+            return render(request, 'sales/consult_sales.html', {'context': context})
+
+    messages.error(request, 'You do not have permission to enter')
+    return redirect('dashboard')
 
 
 # Working
 @login_required
-def updateSale(request):
-    if request.user.is_staff:
+def updateSale(request, id):
+    if not request.user.is_staff:
         try:
             row = Sale.objects.get(id= id)
         except Sale.DoesNotExist:        
             return redirect('sales')
 
-        if request.method == 'POST':
-            form = FormSale(request.POST, instance= row)
-            if form.is_valid():
-                # form.save()
-                messages.success(request, 'The data of the sale has been updated successfully')
-                return redirect('sales')
-            else:
-                messages.error(request, 'The information entered is invalid, please check and try again')
+        if row.id_representative == request.user:
+            if request.method == 'POST':
+                form = FormSaleUpdate(request.user,request.POST, instance= row)
+                if form.is_valid() and form.contract_period():
+                    form.save()
+                    messages.success(request, 'The data of the sale has been updated successfully')
+                    return redirect('sales')
+                else:
+                    messages.error(request, 'The information entered is invalid, please check and try again')
 
-        form = FormSale(instance= row)
-        return render(request, 'sales/update_sales.html', {'form': form})
-    else:
-        messages.error(request, 'You do not have permission to enter')
-        return redirect('dashboard')
+            form = FormSaleUpdate(request.user,instance= row, initial={'contract': row.formart_contract()})
+            return render(request, 'sales/create_sales.html', {'form': form})
+
+    messages.error(request, 'You do not have permission to enter')
+    return redirect('dashboard')
 
 
 #------------------------------- Client ------------------------------- 
 
 @login_required
 def contact(request):
-    context = Client.objects.all()
+    if request.user.is_staff:
+        context = Client.objects.all()
+    else:
+        context = Client.objects.filter(id_representative=request.user)
     return render(request, 'contact/contact.html', {'context': context})
 
 
-# Working
 @login_required
 def createContact(request): 
     if not request.user.is_staff:
         if request.method == 'POST':
-            form = FormContact(request.POST)
-            if form.is_valid():
-                pass
-                # form.save()
-                # return render(request, 'contact/create_other_contact.html')
+            form = FormContact(request.POST) 
+            if form.is_valid() and form.clean_representative(request.user.id, request.user.country):
+                form.save()
+                return render(request, 'contact/create_other_contact.html')
+            else:
+                messages.error(request, 'The information entered is invalid, please check and try again')
+                return redirect('createContact')
 
         form = FormContact(initial={'id_representative': request.user.id, 'country': request.user.country})
         return render(request, 'contact/create_contact.html', {'form': form})
@@ -195,37 +202,41 @@ def createContact(request):
 
 
 @login_required
-def viewContact(request):
+def viewContact(request, id):
     try:
         context = Client.objects.get(id= id)
     except Client.DoesNotExist:        
         return redirect('contact')
 
-    return render(request, 'contact/consult_contact.html', {'context': context})
+    if context.id_representative == request.user or request.user.admin_user:
+        return render(request, 'contact/consult_contact.html', {'context': context})
+
+    messages.error(request, 'You do not have permission to enter')
+    return redirect('dashboard')
 
 
-# Working
 @login_required
-def updateContact(request):
-    if request.user.is_staff:
+def updateContact(request, id):
+    if not request.user.is_staff:
         try:
             row = Client.objects.get(id= id)
         except Client.DoesNotExist:        
             return redirect('contact')
 
-        if request.method == 'POST':
-            form = FormContact(request.POST, instance= row)
-            if form.is_valid():
-                # form.save()
-                messages.success(request, 'The data of the contact has been updated successfully')
-                return redirect('contact')
-            else:
-                messages.error(request, 'The information entered is invalid, please check and try again')
+        if row.id_representative == request.user:
+            if request.method == 'POST':
+                form = FormContactUpdate(request.POST, instance= row)
+                if form.is_valid():
+                    form.save()
+                    messages.success(request, 'The data of the contact has been updated successfully')
+                    return redirect('contact')
+                else:
+                    messages.error(request, 'The information entered is invalid, please check and try again')
 
-        form = FormContact(instance= row)
-        return render(request, 'contact/update_contact.html', {'form': form})
-    else:
-        messages.error(request, 'You do not have permission to enter')
-        return redirect('dashboard')
+            form = FormContactUpdate(instance= row)
+            return render(request, 'contact/create_contact.html', {'form': form})
+
+    messages.error(request, 'You do not have permission to enter')
+    return redirect('dashboard')
 
 

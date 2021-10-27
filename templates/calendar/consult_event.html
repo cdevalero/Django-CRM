@@ -1,4 +1,56 @@
-{% extends 'sidebar.html' %} 
+{% extends 'sidebar.html' %}
 {% block content %}
-
+<div class="container-fluid px-3 mt-3">
+    <h1 class="h3 mb-3 text-gray-800">Event</h1>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordeless" id="dataTable" width="100%" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td class="align-left" style="width: 30%"><strong>Event title </strong></td>
+                            <td class="align-left">{{context.event_title}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Description </strong></td>
+                            <td class="align-left">{{context.description}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Contacts </strong></td>
+                            <td class="align-left">
+                                {% for contact in context.contacts.all %}
+                                <span>{{contact}}<br></span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Date of creation of event </strong></td>
+                            <td class="align-left">{{context.creation_date|date:"M d, Y"}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Date of the event </strong></td>
+                            <td class="align-left">{{context.event_date|date:"M d, Y"}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Date of expire </strong></td>
+                            <td class="align-left">{{context.expiration_event_date|date:"M d, Y"}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>User of the event </strong></td>
+                            <td class="align-left">{{context.id_user}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Type of event </strong></td>
+                            <td class="align-left">{{context.type}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Status </strong></td>
+                            <td class="align-left">{{context.status}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

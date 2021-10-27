@@ -1,16 +1,32 @@
-{% extends 'sidebar.html' %} 
+{% extends 'sidebar.html' %}
 {% block content %}
 <div class="container-fluid px-3 mt-3">
-    <h1 class="h3 mb-3 text-gray-800">Contacts</h1>
+    <h1 class="h3 mb-3 text-gray-800">Contact</h1>
     <div class="card shadow mb-4">
         <div class="card-body">
+            {% if messages %}
+            <div class="row mt-3 mb-3">
+                <div class="col-12">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>
                                 <div class="d-flex justify-content-center align-items-center">
-                                    Contact
+                                    Name
+                                </div>
+                            </th>
+                            <th>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    Email
                                 </div>
                             </th>
                             <th>
@@ -21,25 +37,26 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% if context %}
+                        {% for row in context %}
                         <tr>
-                            <td class="align-middle">mail@mail.com</td>
+                            <td class="align-middle">{{row.name}} {{row.last_name}}</td>
+                            <td class="align-middle">{{row.email}}</td>
                             <td>
                                 <div class="d-flex justify-content-center align-middle gap-2">
-                                    <a href="#" class="btn btn-primary">
+                                    <a href="{% url 'viewContact' row.id %}" class="btn btn-primary">
                                         Consult
                                     </a>
                                     {% if request.user.is_staff is not True %}
-                                    <a href="#" class="btn btn-primary">
+                                    <a href="{% url 'updateContact' row.id %}" class="btn btn-primary">
                                         Update
-                                    </a>
-                                    <a href="#" class="btn btn-primary">
-                                        Resent Email
                                     </a>
                                     {% endif %}
                                 </div>
                             </td>
                         </tr>
-                        
+                        {% endfor %}
+                        {% endif %}
                     </tbody>
                 </table>
             </div>

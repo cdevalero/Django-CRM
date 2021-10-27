@@ -1,54 +1,52 @@
-{% extends 'sidebar.html' %}
+{% extends 'sidebar.html' %} 
 {% block content %}
 <div class="container-fluid px-3 mt-3">
     <h1 class="h3 mb-3 text-gray-800">Contact</h1>
     <div class="card shadow mb-4">
         <div class="card-body">
-            {% if messages %}
-            <div class="row mt-3 mb-3">
-                <div class="col-12">
-                    {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endif %}
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>
-                                <div class="d-flex justify-content-center align-items-center">
-                                    Name
-                                </div>
-                            </th>
-                            <th>
-                                <div class="d-flex justify-content-center align-items-center">
-                                    Options
-                                </div>
-                            </th>
-                        </tr>
-                    </thead>
+                <table class="table table-bordeless" id="dataTable" width="100%" cellspacing="0">
                     <tbody>
-                        {% if context %}
-                        {% for row in context %}
                         <tr>
-                            <td class="align-middle">{{row.id_contact}}</td>
-                            <td>
-                                <div class="d-flex justify-content-center align-middle gap-2">
-                                    <a href="{% url 'viewContact' row.id %}" class="btn btn-primary">
-                                        Consult
-                                    </a>
-                                    <a href="{% url 'updateContact' row.id %}" class="btn btn-primary">
-                                        Update
-                                    </a>
-                                </div>
-                            </td>
+                            <td class="align-left" style="width: 30%"><strong>Name of the services  </strong></td>
+                            <td class="align-left">{{context.name}} {{context.last_name}}</td>
                         </tr>
-                        {% endfor %}
-                        {% endif %}
+                        <tr>
+                            <td class="align-left"><strong>Email </strong></td>
+                            <td class="align-left">{{context.email}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Phone </strong></td>
+                            <td class="align-left">{{context.phone_number}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Status </strong></td>
+                            <td class="align-left">{% if context.status %} Is client {% else %} Not Client {% endif %}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Register date </strong></td>
+                            <td class="align-left">{{context.register_date}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Country </strong></td>
+                            <td class="align-left">{{context.country}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Twitter </strong></td>
+                            <td class="align-left">{% if context.twitter %}{{context.twitter}}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Facebook </strong></td>
+                            <td class="align-left">{% if context.facebook %}{{context.facebook}}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Instagram </strong></td>
+                            <td class="align-left">{% if context.instagram %}{{context.instagram}}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Representative </strong></td>
+                            <td class="align-left">{{context.id_representative}}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

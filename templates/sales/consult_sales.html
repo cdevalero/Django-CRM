@@ -8,8 +8,12 @@
                 <table class="table table-bordeless" id="dataTable" width="100%" cellspacing="0">
                     <tbody>
                         <tr>
-                            <td class="align-left" style="width: 30%"><strong>Sale Name </strong></td>
-                            <td class="align-left">{{context.id_sale}}</td>
+                            <td class="align-left"><strong>Service </strong></td>
+                            <td class="align-left">{{context.id_service}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Commission </strong></td>
+                            <td class="align-left">{{context.commission}}</td>
                         </tr>
                         <tr>
                             <td class="align-left"><strong>Description </strong></td>
@@ -25,15 +29,19 @@
                         </tr>
                         <tr>
                             <td class="align-left"><strong>Register Date Sale </strong></td>
-                            <td class="align-left">{{context.register_date_sale}}</td>
+                            <td class="align-left">{{context.register_date_sale|date:"M d, Y"}}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><strong>Update Date Sale </strong></td>
+                            <td class="align-left">{{context.update_sale|date:"M d, Y"}}</td>
                         </tr>
                         <tr>
                             <td class="align-left"><strong>Contract start </strong></td>
-                            <td class="align-left">{{context.contract_start}}</td>
+                            <td class="align-left">{{context.contract_start|date:"M d, Y"}}</td>
                         </tr>
                         <tr>
                             <td class="align-left"><strong>Contract end </strong></td>
-                            <td class="align-left">{{context.contract_end}}</td>
+                            <td class="align-left">{{context.contract_end|date:"M d, Y"}}</td>
                         </tr>
                         <tr>
                             <td class="align-left"><strong>Representative </strong></td>

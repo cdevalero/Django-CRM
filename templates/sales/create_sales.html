@@ -38,27 +38,27 @@ function cancel() {
     }
 }
 $('#send').submit(function() {
-    let time = $('input[name="contract_start"]').val().split(' / ');
-    document.getElementById("id_contract_start").value=time[0];
-    document.getElementById("id_contract_end").value=time[1];
+    document.getElementById("id_country").disabled = false;
+    document.getElementById("id_process_sale_status").disabled = false;
+    document.getElementById("id_status").disabled = false;
+    document.getElementById("id_id_representative").disabled = false;
     return true;
 });
 </script>
 <script type="text/javascript">
 $(function() {
-
-    $('input[name="contract_start"]').daterangepicker({ 
+    $('input[name="contract"]').daterangepicker({ 
         autoUpdateInput: false,
         locale: {
             cancelLabel: 'Clear'
         }
     });
 
-    $('input[name="contract_start"]').on('apply.daterangepicker', function(ev, picker) {
+    $('input[name="contract"]').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('DD-MM-YYYY') + ' / ' + picker.endDate.format('DD-MM-YYYY'));
     });
 
-    $('input[name="contract_start"]').on('cancel.daterangepicker', function(ev, picker) {
+    $('input[name="contract"]').on('cancel.daterangepicker', function(ev, picker) {
         $(this).val('');
     });
 });

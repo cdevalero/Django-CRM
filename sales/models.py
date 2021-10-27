@@ -28,8 +28,10 @@ class Client(models.Model):
 	twitter = models.CharField(max_length=100, unique=True, blank=True, null=True)
 	facebook = models.CharField(max_length=100, unique=True, blank=True, null=True)
 	instagram = models.CharField(max_length=100, unique=True, blank=True, null=True)
-	other_social_network = models.CharField(max_length=100, unique=True, blank=True, null=True)
 	id_representative = models.ForeignKey(crmUser, on_delete=CASCADE)
+
+	def __str__(self):
+		return  self.email + ' - ' + self.name + ' ' + self.last_name
 
 
 class Sale(models.Model):
@@ -46,19 +48,21 @@ class Sale(models.Model):
 		('no successfully.','no successfully'),
 	)
 
-	# name = models.CharField(max_length=100)
 	description = models.TextField()
 	status = models.CharField(max_length=50, choices=STATUS)
 	process_sale_status = models.CharField(max_length=50, choices=PROCESS)
+	commission = models.IntegerField()
 	country = models.CharField(max_length=100)
 	register_date_sale = models.DateTimeField()
+	update_sale = models.DateTimeField(blank=True, null=True)
 	contract_start = models.DateTimeField()
 	contract_end = models.DateTimeField(blank=True, null=True)
 	id_representative = models.ForeignKey(crmUser, on_delete=CASCADE)
 	id_service = models.ForeignKey(Service, on_delete=CASCADE)
 	id_client = models.ForeignKey(Client, on_delete=CASCADE)
 
-	# def __str__(self):
-	# 	return self.register_date_sale.strftime("%m/%d/%Y, %H:%M:%S")
+	def formart_contract(self):
+		return self.contract_start.strftime("%d-%m-%Y") + ' / ' + self.contract_end.strftime("%d-%m-%Y")
+
 
 

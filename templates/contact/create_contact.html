@@ -40,8 +40,8 @@ function cancel() {
 $('#send').submit(function() {
     document.getElementById("id_country").disabled = false;
     document.getElementById("id_id_representative").disabled = false;
-    document.getElementById("id_id_representative").value='COUNTRY';
-    document.getElementById("id_id_representative").value='1';
+    document.getElementById("id_id_representative").value='{{user.country}}';
+    document.getElementById("id_id_representative").value='{{user.id}}';
     return true;
 });
 </script>

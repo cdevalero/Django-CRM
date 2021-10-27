@@ -21,7 +21,17 @@
                         <tr>
                             <th>
                                 <div class="d-flex justify-content-center align-items-center">
-                                    Name
+                                    Client
+                                </div>
+                            </th>
+                            <th>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    Start
+                                </div>
+                            </th>
+                            <th>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    End
                                 </div>
                             </th>
                             <th>
@@ -35,8 +45,16 @@
                         {% if context %}
                         {% for row in context %}
                         <tr>
-                            <td class="align-middle">{{row.id_sale}}</td>
-                            <td>
+                            <td class="align-middle">
+                                {{row.id_client}}
+                            </td>
+                            <td class="align-middle">
+                                {{row.contract_start|date:"M d, Y"}}
+                            </td>
+                            <td class="align-middle">
+                                {{row.contract_end|date:"M d, Y"}}
+                            </td>
+                            <td> 
                                 <div class="d-flex justify-content-center align-middle gap-2">
                                     <a href="{% url 'viewSale' row.id %}" class="btn btn-primary">
                                         Consult

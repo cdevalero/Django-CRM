@@ -31,7 +31,6 @@ class crmUserManager(BaseUserManager):
 
 
 class crmUser(AbstractBaseUser):
-	auth_user_id = models.CharField('Auth Token', max_length=100, blank=True, null=True)
 	status = models.BooleanField('Status', default=True)
 	admin_user = models.BooleanField('Admin', default=False)
 	name = models.CharField('Name', max_length=100)

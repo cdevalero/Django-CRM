@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     # packages
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,15 @@ MESSAGE_TAGS = {
     message_constants.WARNING: 'warning',
     message_constants.ERROR: 'danger',
 }
+
+COUNTRIES_OVERRIDE = {
+    'US': None,
+    'UM': None,
+    'VI': None,
+}
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mail'
+EMAIL_HOST_PASSWORD = 'password'
+EMAIL_USE_TLS = True

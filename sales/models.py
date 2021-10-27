@@ -1,7 +1,9 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.utils.timezone import now
+from django_countries.fields import CountryField
 from user.models import crmUser
+
 
 class Service(models.Model):
 	name = models.CharField(max_length=100, unique=True)
@@ -24,7 +26,7 @@ class Client(models.Model):
 	phone_number = models.IntegerField()
 	status = models.BooleanField(choices=STATUS)
 	register_date = models.DateTimeField(default=now, editable=False)
-	country = models.CharField(max_length=100)
+	country = CountryField()
 	twitter = models.CharField(max_length=100, unique=True, blank=True, null=True)
 	facebook = models.CharField(max_length=100, unique=True, blank=True, null=True)
 	instagram = models.CharField(max_length=100, unique=True, blank=True, null=True)
@@ -52,7 +54,7 @@ class Sale(models.Model):
 	status = models.CharField(max_length=50, choices=STATUS)
 	process_sale_status = models.CharField(max_length=50, choices=PROCESS)
 	commission = models.IntegerField()
-	country = models.CharField(max_length=100)
+	country = CountryField()
 	register_date_sale = models.DateTimeField()
 	update_sale = models.DateTimeField(blank=True, null=True)
 	contract_start = models.DateTimeField()

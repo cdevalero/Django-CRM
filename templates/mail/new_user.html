@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New user representative - CRM</title>
+  </head>
+  <body>
+    <div class="container-fluid px-3 mt-3">
+      <h1 class="h3 mb-3 text-gray-800">Welcome new Representative</h1>
+      <div class="card shadow mb-4">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              class="table table-bordeless"
+              id="dataTable"
+              width="100%"
+              cellspacing="0"
+            >
+              <tbody>
+                {% if name %}
+                <tr>
+                  <td class="align-left" style="width: 30%">
+                    <strong>Name </strong>
+                  </td>
+                  <td class="align-left">
+                    {{name}} {{last_name}}
+                  </td>
+                </tr>
+                {% endif %}
+                {% if dni %}
+                <tr>
+                  <td class="align-left"><strong>DNI</strong></td>
+                  <td class="align-left">{{dni}}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                  <td class="align-left"><strong>Address</strong></td>
+                  <td class="align-left">{{address}}</td>
+                </tr>
+                <tr>
+                  <td class="align-left"><strong>Phone</strong></td>
+                  <td class="align-left">{{phone_number}}</td>
+                </tr>
+                <tr>
+                  <td class="align-left"><strong>Personal email</strong></td>
+                  <td class="align-left">{{personal_email}}</td>
+                </tr>
+                <tr>
+                  <td class="align-left"><strong>Corporative Email (User email)</strong></td>
+                  <td class="align-left">{{user_email}}</td>
+                </tr>
+                {% if password %}
+                <tr>
+                    <td class="align-left"><strong>Password</strong></td>
+                    <td class="align-left">{{password}}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                  <td class="align-left"><strong>Country</strong></td>
+                  <td class="align-left">{{country}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

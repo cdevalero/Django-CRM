@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django_countries.fields import CountryField
 
 class crmUserManager(BaseUserManager):
 	def create_user(self, user_email, name, last_name, password):
@@ -40,7 +41,7 @@ class crmUser(AbstractBaseUser):
 	dni = models.IntegerField('DNI', unique=True, blank=True, null=True)
 	address = models.TextField('Address', blank=True, null=True)
 	phone_number = models.IntegerField('Phone number', blank=True, null=True)
-	country = models.CharField('Country', max_length=100, blank=True, null=True)
+	country = CountryField('Country', blank=True, null=True)
 
 
 	objects = crmUserManager()

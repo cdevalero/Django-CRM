@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import crmUser
 from .forms import FormRepresentative, FormRepresentativeUpdate
+from .email import send_email, resend_email_representative
 
 #------------------------------- Login ------------------------------- 
 
@@ -51,8 +52,6 @@ def userRecovery(request):
 
 #------------------------------- Representatives ------------------------------- 
 
-# https://restcountries.com/v3.1/all
-
 @login_required
 def representatives(request):
 	if request.user.is_staff:
@@ -71,7 +70,10 @@ def createRepresentative(request):
 			form = FormRepresentative(request.POST)
 			if form.is_valid():
 				form.save()
-				return redirect('representatives')
+				send_email(form)
+				messages.success(request, 'New Representative is created successfully , an email has bent sent to the email of the representative registered please verified this information')
+				user_representative = crmUser.objects.get(user_email= form.cleaned_data.get('user_email'))
+				return render(request, 'representatives/verify_email.html', {'id': user_representative.id})
 			else:
 				messages.error(request, 'The information entered is invalid, please check and try again')
 
@@ -90,11 +92,16 @@ def updateRepresentative(request, id):
 			return redirect('representatives')
 
 		if request.method == 'POST':
+			old = row.user_email
 			form = FormRepresentativeUpdate(request.POST, instance= row)
 			if form.is_valid():
 				form.save()
-				messages.success(request, 'The data of the representative user is updated successfully')
-				return redirect('representatives')
+				if old != form.cleaned_data.get('user_email'):
+					messages.success(request, 'The data has been updated successfully, and a mail with the access to the CRM has been sending to the email of the representative user')
+					user_representative = crmUser.objects.get(user_email= form.cleaned_data.get('user_email'))
+					return render(request, 'representatives/verify_email.html', {'id': user_representative.id})
+				else:
+					return redirect('representatives')
 			else:
 				messages.error(request, 'The information entered is invalid, please check and try again')
 
@@ -148,6 +155,22 @@ def changeRepresentativeStatus(request, id):
 			return redirect('representativeStatus')
 
 		return render(request, 'representatives/representatives_status_change.html', {'context': context})
+	else:
+		messages.error(request, 'You do not have permission to enter')
+		return redirect('dashboard')
+
+
+@login_required
+def resendMail(request, id):
+	if request.user.is_staff:
+		try:
+			user = crmUser.objects.get(id= id)
+		except crmUser.DoesNotExist:        
+			return redirect('representatives')
+		
+		resend_email_representative(user)
+		messages.success(request, 'an email has bent sent to the email of the representative registered please verified this information')
+		return render(request, 'representatives/verify_email.html', {'id': id})
 	else:
 		messages.error(request, 'You do not have permission to enter')
 		return redirect('dashboard')

@@ -53,3 +53,46 @@ def resend_email_representative(user):
 
     mail.attach_alternative(content, 'text/html')
     mail.send()
+
+
+def send_email_update(form, password):
+    email = form.cleaned_data.get('user_email')
+    context = {
+        'user_email': email,
+        'address': form.cleaned_data.get('address'),
+        'phone_number': form.cleaned_data.get('phone_number'),
+        'personal_email': form.cleaned_data.get('personal_email'),
+        'password': password,
+        'country': form.cleaned_data.get('country'),
+    }
+    template = get_template('mail/new_user.html')
+    content = template.render(context)
+
+    mail = EmailMultiAlternatives(
+        'Update email representative',
+        'CRM',
+        settings.EMAIL_HOST_USER,
+        [email]
+    )
+
+    mail.attach_alternative(content, 'text/html')
+    mail.send()
+
+
+def send_recovery_password(user):
+    email = user.user_email
+    context = {
+        'link': 'http://127.0.0.1:8000/changePassword/' + email + '/' + user.password
+    }
+    template = get_template('mail/recovery.html')
+    content = template.render(context)
+
+    mail = EmailMultiAlternatives(
+        'Update email representative',
+        'CRM',
+        settings.EMAIL_HOST_USER,
+        [email]
+    )
+
+    mail.attach_alternative(content, 'text/html')
+    mail.send()

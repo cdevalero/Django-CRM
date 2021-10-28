@@ -1,3 +1,5 @@
+import string
+import random
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django_countries.fields import CountryField
@@ -64,3 +66,8 @@ class crmUser(AbstractBaseUser):
 	@property
 	def is_staff(self):
 		return self.admin_user
+
+	def new_password(self, password = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(8))):
+		self.set_password(password)
+		self.save()
+		return password

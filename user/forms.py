@@ -28,7 +28,7 @@ class FormRepresentative(forms.ModelForm):
         return user
 
     def get_user(self):
-        return self.user_email
+        return self.cleaned_data.get('user_email')
 
     helper = FormHelper()
     helper.layout = Layout(
@@ -63,7 +63,7 @@ class FormRepresentativeUpdate(forms.ModelForm):
         self.fields['user_email'].label = "Corporative Email"
 
     def get_user(self):
-        return self.user_email
+        return self.cleaned_data.get('user_email')
 
     helper = FormHelper()
     helper.layout = Layout(

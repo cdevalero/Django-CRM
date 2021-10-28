@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import crmUser
 from .forms import FormRepresentative, FormRepresentativeUpdate
-from .email import send_email, resend_email_representative
+from .email import send_email, resend_email_representative, send_email_update, send_recovery_password
 
 #------------------------------- Login ------------------------------- 
 
@@ -45,10 +45,34 @@ def userDashboard(request):
 		return render(request, 'dashboard/representative_dashboard.html')
 
 
-# Working
 def userRecovery(request):
+	if request.method == 'POST':
+		email = request.POST['email']
+		try:
+			user = crmUser.objects.get(user_email= email)
+		except crmUser.DoesNotExist:        
+			return redirect('login')
+		send_recovery_password(user)
+		return render(request, 'login/send_sms.html')
+
 	return render(request, 'login/recovery.html')
 
+# changePassword
+
+def changePassword(request, email, password):
+	try:
+		user = crmUser.objects.get(user_email= email)
+	except crmUser.DoesNotExist:        
+		return redirect('login')
+	if user.password != password:
+		return redirect('login')
+
+	if request.method == 'POST':
+		newPassword = request.POST['password1']
+		user.new_password(newPassword)
+		return render(request, 'login/success.html')
+
+	return render(request, 'login/change_password.html')
 
 #------------------------------- Representatives ------------------------------- 
 
@@ -95,12 +119,15 @@ def updateRepresentative(request, id):
 		if request.method == 'POST':
 			old = row.user_email
 			form = FormRepresentativeUpdate(request.POST, instance= row)
+			
 			if form.is_valid():
 				form.save()
 				if old != form.cleaned_data.get('user_email'):
 					messages.success(request, 'The data has been updated successfully, and a mail with the access to the CRM has been sending to the email of the representative user')
 					# user_representative = crmUser.objects.get(user_email= form.cleaned_data.get('user_email'))
 					user_representative = crmUser.objects.get(user_email= form.get_user())
+					password = user_representative.new_password()
+					send_email_update(form, password)
 					return render(request, 'representatives/verify_email.html', {'id': user_representative.id})
 				else:
 					return redirect('representatives')

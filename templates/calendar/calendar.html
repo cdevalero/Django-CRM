@@ -59,9 +59,11 @@
                                     <a href="{% url 'viewEvent' row.id %}" class="btn btn-primary">
                                         Consult
                                     </a>
+                                    {% if request.user.is_staff is not True %}
                                     <a href="{% url 'updateEvent' row.id %}" class="btn btn-primary">
                                         Update
                                     </a>
+                                    {% endif %}
                                 </div>
                             </td>
                         </tr>

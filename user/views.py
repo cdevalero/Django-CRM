@@ -72,7 +72,8 @@ def createRepresentative(request):
 				form.save()
 				send_email(form)
 				messages.success(request, 'New Representative is created successfully , an email has bent sent to the email of the representative registered please verified this information')
-				user_representative = crmUser.objects.get(user_email= form.cleaned_data.get('user_email'))
+				# user_representative = crmUser.objects.get(user_email= form.cleaned_data.get('user_email'))
+				user_representative = crmUser.objects.get(user_email= form.get_user())
 				return render(request, 'representatives/verify_email.html', {'id': user_representative.id})
 			else:
 				messages.error(request, 'The information entered is invalid, please check and try again')
@@ -98,7 +99,8 @@ def updateRepresentative(request, id):
 				form.save()
 				if old != form.cleaned_data.get('user_email'):
 					messages.success(request, 'The data has been updated successfully, and a mail with the access to the CRM has been sending to the email of the representative user')
-					user_representative = crmUser.objects.get(user_email= form.cleaned_data.get('user_email'))
+					# user_representative = crmUser.objects.get(user_email= form.cleaned_data.get('user_email'))
+					user_representative = crmUser.objects.get(user_email= form.get_user())
 					return render(request, 'representatives/verify_email.html', {'id': user_representative.id})
 				else:
 					return redirect('representatives')

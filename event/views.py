@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from .models import Event
 from .forms import FormEvent, FormEventUpdate
 
@@ -35,7 +35,7 @@ def updateEvent(request, id):
     except Event.DoesNotExist:        
         return redirect('events')
 
-    if row.id_user == request.user or request.user.admin_user:
+    if row.id_user == request.user:
     	if request.method == 'POST':
     		form = FormEventUpdate(request.user,request.POST,instance= row)
     		if form.is_valid() and form.dataValidation():
@@ -64,3 +64,4 @@ def viewEvent(request, id):
 
     messages.error(request, 'You do not have permission to enter')
     return redirect('dashboard')
+

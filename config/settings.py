@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&ebmp2_utgjf)^yb1x71!j=*&m%yyf%2ny-aj&id1&5d%-t1sa'
+SECRET_KEY = os.environ.get('KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -149,6 +149,6 @@ COUNTRIES_OVERRIDE = {
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'mail'
-EMAIL_HOST_PASSWORD = 'password'
+EMAIL_HOST_USER = os.environ.get('MAIL')
+EMAIL_HOST_PASSWORD = os.environ.get('PASSWORD')
 EMAIL_USE_TLS = True

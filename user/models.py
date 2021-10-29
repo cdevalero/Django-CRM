@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django_countries.fields import CountryField
 
-class crmUserManager(BaseUserManager):
+class CRMUserManager(BaseUserManager):
 	def create_user(self, user_email, name, last_name, password):
 		if not user_email or not name or not last_name or not password:
 			raise ValueError('User cannot be created!')
@@ -33,7 +33,7 @@ class crmUserManager(BaseUserManager):
 		return user
 
 
-class crmUser(AbstractBaseUser):
+class CRMUser(AbstractBaseUser):
 	status = models.BooleanField('Status', default=True)
 	admin_user = models.BooleanField('Admin', default=False)
 	name = models.CharField('Name', max_length=100)
@@ -46,7 +46,7 @@ class crmUser(AbstractBaseUser):
 	country = CountryField('Country', blank=True, null=True)
 
 
-	objects = crmUserManager()
+	objects = CRMUserManager()
 
 
 	USERNAME_FIELD = 'user_email'
@@ -71,3 +71,4 @@ class crmUser(AbstractBaseUser):
 		self.set_password(password)
 		self.save()
 		return password
+

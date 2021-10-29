@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.timezone import now
 from django.db.models.deletion import CASCADE
 from sales.models import Client
-from user.models import crmUser
+from user.models import CRMUser
 
 class Event(models.Model):
 	STATUS = (
@@ -20,4 +20,4 @@ class Event(models.Model):
 	type = models.CharField(max_length=100)
 	status = models.CharField(max_length=15, choices=STATUS)
 	contacts = models.ManyToManyField(Client)
-	id_user = models.ForeignKey(crmUser, on_delete=CASCADE, blank=True, null=True)
+	id_user = models.ForeignKey(CRMUser, on_delete=CASCADE, blank=True, null=True)

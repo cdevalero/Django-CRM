@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.deletion import CASCADE
 from django.utils.timezone import now
 from django_countries.fields import CountryField
-from user.models import crmUser
+from user.models import CRMUser
 
 
 class Service(models.Model):
@@ -30,7 +30,7 @@ class Client(models.Model):
 	twitter = models.CharField(max_length=100, unique=True, blank=True, null=True)
 	facebook = models.CharField(max_length=100, unique=True, blank=True, null=True)
 	instagram = models.CharField(max_length=100, unique=True, blank=True, null=True)
-	id_representative = models.ForeignKey(crmUser, on_delete=CASCADE)
+	id_representative = models.ForeignKey(CRMUser, on_delete=CASCADE)
 
 	def __str__(self):
 		return  self.email + ' - ' + self.name + ' ' + self.last_name
@@ -59,7 +59,7 @@ class Sale(models.Model):
 	update_sale = models.DateTimeField(blank=True, null=True)
 	contract_start = models.DateTimeField()
 	contract_end = models.DateTimeField(blank=True, null=True)
-	id_representative = models.ForeignKey(crmUser, on_delete=CASCADE)
+	id_representative = models.ForeignKey(CRMUser, on_delete=CASCADE)
 	id_service = models.ForeignKey(Service, on_delete=CASCADE)
 	id_client = models.ForeignKey(Client, on_delete=CASCADE)
 

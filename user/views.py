@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import crmUser
+from .models import CRMUser
 from .forms import FormRepresentative, FormRepresentativeUpdate
 from .email import send_email, resend_email_representative, send_email_update, send_recovery_password
 
@@ -18,8 +18,8 @@ def userLogin(request):
 	        return redirect('dashboard')
 	    else:
 	    	try:
-	    		crmUser.objects.get(user_email = username)
-	    	except crmUser.DoesNotExist:
+	    		CRMUser.objects.get(user_email = username)
+	    	except CRMUser.DoesNotExist:
 	    		messages.error(request, 'The email is not registered, check it and try again')
 	    	else:
 	    		messages.error(request, 'Email or password invalid, check it and try again')
@@ -49,20 +49,19 @@ def userRecovery(request):
 	if request.method == 'POST':
 		email = request.POST['email']
 		try:
-			user = crmUser.objects.get(user_email= email)
-		except crmUser.DoesNotExist:        
+			user = CRMUser.objects.get(user_email= email)
+		except CRMUser.DoesNotExist:        
 			return redirect('login')
 		send_recovery_password(user)
 		return render(request, 'login/send_sms.html')
 
 	return render(request, 'login/recovery.html')
 
-# changePassword
 
 def changePassword(request, email, password):
 	try:
-		user = crmUser.objects.get(user_email= email)
-	except crmUser.DoesNotExist:        
+		user = CRMUser.objects.get(user_email= email)
+	except CRMUser.DoesNotExist:        
 		return redirect('login')
 	if user.password != password:
 		return redirect('login')
@@ -79,7 +78,7 @@ def changePassword(request, email, password):
 @login_required
 def representatives(request):
 	if request.user.is_staff:
-		context = crmUser.objects.filter(status=True, admin_user=False)
+		context = CRMUser.objects.filter(status=True, admin_user=False)
 		return render(request, 'representatives/representatives.html', {'context': context})
 	else:
 		messages.error(request, 'You do not have permission to enter')
@@ -96,8 +95,7 @@ def createRepresentative(request):
 				form.save()
 				send_email(form)
 				messages.success(request, 'New Representative is created successfully , an email has bent sent to the email of the representative registered please verified this information')
-				# user_representative = crmUser.objects.get(user_email= form.cleaned_data.get('user_email'))
-				user_representative = crmUser.objects.get(user_email= form.get_user())
+				user_representative = CRMUser.objects.get(user_email= form.get_user())
 				return render(request, 'representatives/verify_email.html', {'id': user_representative.id})
 			else:
 				messages.error(request, 'The information entered is invalid, please check and try again')
@@ -112,8 +110,8 @@ def createRepresentative(request):
 def updateRepresentative(request, id):
 	if request.user.is_staff:
 		try:
-			row = crmUser.objects.get(id= id)
-		except crmUser.DoesNotExist:        
+			row = CRMUser.objects.get(id= id)
+		except CRMUser.DoesNotExist:        
 			return redirect('representatives')
 
 		if request.method == 'POST':
@@ -124,8 +122,7 @@ def updateRepresentative(request, id):
 				form.save()
 				if old != form.cleaned_data.get('user_email'):
 					messages.success(request, 'The data has been updated successfully, and a mail with the access to the CRM has been sending to the email of the representative user')
-					# user_representative = crmUser.objects.get(user_email= form.cleaned_data.get('user_email'))
-					user_representative = crmUser.objects.get(user_email= form.get_user())
+					user_representative = CRMUser.objects.get(user_email= form.get_user())
 					password = user_representative.new_password()
 					send_email_update(form, password)
 					return render(request, 'representatives/verify_email.html', {'id': user_representative.id})
@@ -145,8 +142,8 @@ def updateRepresentative(request, id):
 def viewRepresentative(request, id):
 	if request.user.is_staff:
 		try:
-			context = crmUser.objects.get(id= id)
-		except crmUser.DoesNotExist:        
+			context = CRMUser.objects.get(id= id)
+		except CRMUser.DoesNotExist:        
 			return redirect('representatives')
 
 		return render(request, 'representatives/consult_representative.html', {'context': context})
@@ -158,7 +155,7 @@ def viewRepresentative(request, id):
 @login_required
 def representativeStatus(request):
 	if request.user.is_staff:
-		context = crmUser.objects.filter(admin_user=False)
+		context = CRMUser.objects.filter(admin_user=False)
 		return render(request, 'representatives/representatives_status.html', {'context': context})
 	else:
 		messages.error(request, 'You do not have permission to enter')
@@ -169,8 +166,8 @@ def representativeStatus(request):
 def changeRepresentativeStatus(request, id):
 	if request.user.is_staff:
 		try:
-			context = crmUser.objects.get(id= id)
-		except crmUser.DoesNotExist:        
+			context = CRMUser.objects.get(id= id)
+		except CRMUser.DoesNotExist:        
 			return redirect('representativeStatus')
 
 		if request.method == 'POST':
@@ -193,8 +190,8 @@ def changeRepresentativeStatus(request, id):
 def resendMail(request, id):
 	if request.user.is_staff:
 		try:
-			user = crmUser.objects.get(id= id)
-		except crmUser.DoesNotExist:        
+			user = CRMUser.objects.get(id= id)
+		except CRMUser.DoesNotExist:        
 			return redirect('representatives')
 		
 		resend_email_representative(user)

@@ -1,5 +1,5 @@
-django
-crispy_forms
-crispy_bootstrap5
-django_countries
-django-dotenv
+crispy-bootstrap5==0.6     
+Django==3.2.8
+django-countries==7.2.1    
+django-crispy-forms==1.13.0
+django-dotenv==1.4.2

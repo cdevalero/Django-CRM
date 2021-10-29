@@ -1,14 +1,14 @@
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, HTML, Field
-from crispy_forms.bootstrap import FormActions, UneditableField
-from .models import crmUser
+from crispy_forms.bootstrap import FormActions
+from .models import CRMUser
 
 
 class FormRepresentative(forms.ModelForm):
     password = forms.CharField(widget= forms.PasswordInput())
     class Meta:
-        model = crmUser;
+        model = CRMUser;
         fields = ('name', 'last_name', 'dni', 'address', 'phone_number', 'personal_email', 'user_email', 'country')
 
 
@@ -52,7 +52,7 @@ class FormRepresentative(forms.ModelForm):
 
 class FormRepresentativeUpdate(forms.ModelForm):
     class Meta:
-        model = crmUser;
+        model = CRMUser;
         fields = ('address', 'phone_number', 'personal_email', 'user_email', 'country')
 
 

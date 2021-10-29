@@ -1,4 +1,3 @@
-from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -145,7 +144,6 @@ def viewSale(request, id):
     return redirect('dashboard')
 
 
-# Working
 @login_required
 def updateSale(request, id):
     if not request.user.is_staff:

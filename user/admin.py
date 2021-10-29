@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import crmUser
+from .models import CRMUser
 
-admin.site.register([crmUser])
+admin.site.register([CRMUser])

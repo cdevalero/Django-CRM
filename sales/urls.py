@@ -3,20 +3,20 @@ from .views import contact, createContact, createService, sales, service, update
 
 
 urlpatterns = [
-    path('createService/', createService, name='createService'),
+    path('service/create/', createService, name='createService'),
     path('service/', service, name='service'),
-    path('viewService/<id>', viewService, name='viewService'),
-    path('updateService/<id>', updateService, name='updateService'),
-    path('serviceStatus/', serviceStatus, name='serviceStatus'),
-    path('changeServiceStatus/<id>', changeServiceStatus, name='changeServiceStatus'),
+    path('service/view/<id>', viewService, name='viewService'),
+    path('service/update/<id>', updateService, name='updateService'),
+    path('service/status/', serviceStatus, name='serviceStatus'),
+    path('service/change_status/<id>', changeServiceStatus, name='changeServiceStatus'),
 
-    path('createSale/', createSale, name='createSale'),
+    path('sales/create/', createSale, name='createSale'),
     path('sales/', sales, name='sales'),
-    path('viewSale/<id>', viewSale, name='viewSale'),
-    path('updateSale/<id>', updateSale, name='updateSale'),
+    path('sales/view/<id>', viewSale, name='viewSale'),
+    path('sales/update/<id>', updateSale, name='updateSale'),
 
-    path('createContact/', createContact, name='createContact'),
+    path('contact/create/', createContact, name='createContact'),
     path('contact/', contact, name='contact'),
-    path('viewContact/<id>', viewContact, name='viewContact'),
-    path('updateContact/<id>', updateContact, name='updateContact'),
+    path('contact/view/<id>', viewContact, name='viewContact'),
+    path('contact/update/<id>', updateContact, name='updateContact'),
 ]

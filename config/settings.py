@@ -100,7 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Custom User Model
-AUTH_USER_MODEL = 'user.crmUser'
+AUTH_USER_MODEL = 'user.CRMUser'
 LOGIN_REDIRECT_URL = reverse_lazy('service')
 LOGIN_URL = 'login'
 

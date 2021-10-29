@@ -1,3 +1,4 @@
+import os
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
@@ -82,13 +83,13 @@ def send_email_update(form, password):
 def send_recovery_password(user):
     email = user.user_email
     context = {
-        'link': 'http://127.0.0.1:8000/changePassword/' + email + '/' + user.password
+        'link': os.environ.get('SERVER_NAME') + 'change/password/' + email + '/' + user.password
     }
     template = get_template('mail/recovery.html')
     content = template.render(context)
 
     mail = EmailMultiAlternatives(
-        'Update email representative',
+        'Recovery password',
         'CRM',
         settings.EMAIL_HOST_USER,
         [email]

@@ -3,10 +3,10 @@ from .views import resendMail, representatives, createRepresentative, updateRepr
 
 urlpatterns = [
     path('representatives/', representatives, name='representatives'),
-    path('createRepresentative/', createRepresentative, name='createRepresentative'),
-    path('viewRepresentative/<id>', viewRepresentative, name='viewRepresentative'),
-    path('updateRepresentative/<id>', updateRepresentative, name='updateRepresentative'),
-    path('representativeStatus/', representativeStatus, name='representativeStatus'),
-    path('changeRepresentativeStatus/<id>', changeRepresentativeStatus, name='changeRepresentativeStatus'),
-    path('resend/<id>', resendMail, name='resend'),
+    path('representatives/create/', createRepresentative, name='createRepresentative'),
+    path('representatives/view/<id>', viewRepresentative, name='viewRepresentative'),
+    path('representatives/update/<id>', updateRepresentative, name='updateRepresentative'),
+    path('representatives/status/', representativeStatus, name='representativeStatus'),
+    path('representatives/status/change/<id>', changeRepresentativeStatus, name='changeRepresentativeStatus'),
+    path('representatives/resend/<id>', resendMail, name='resend'),
 ]

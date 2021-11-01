@@ -1,20 +1,87 @@
-{% extends 'sidebar.html' %}
-{% block content %}
+{% extends 'sidebar.html' %} {% block content %}
 <div class="container-fluid px-3 mt-3">
     <h1 class="h3 mb-3 text-gray-800">DashBoard</h1>
     <div class="card shadow mb-4">
         <div class="card-body">
             {% if messages %}
-            <div class="row mt-3 mb-3">
+            <div class="event mt-3 mb-3">
                 <div class="col-12">
                     {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
                     {% endfor %}
                 </div>
             </div>
             {% endif %}
+            {% if services %} 
+            <div class="card-body border rounded mb-4 ">
+                <h4>New Services</h4>
+                <div class="table-responsive ">
+                    <table class="table table-borderless " id="dataTable" width="75%" cellspacing="0">
+                        <tbody>
+                            {% for service in services %}
+                            <tr class='border-bottom alert alert-success'>
+                                <td class="align-middle">{{service.name}}</td>
+                                <td>
+                                    <div class="d-flex justify-content-center align-middle gap-2">
+                                        <a href="{% url 'viewService' service.id %}" class="btn btn-primary">
+                                            Consult
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+            <div class="card-body border rounded mb-4">
+                <h4>Upcoming events</h4>
+                <div class="table-responsive">
+                    <table class="table table-borderless " id="dataTable" width="75%" cellspacing="0">
+                        <tbody>
+                            {% if events %} {% for event in events %}
+                            <tr class='border-bottom'>
+                                <td class="align-middle">{{event.event_title}}</td>
+                                <td class="align-middle">
+                                    Expiration date: {{event.expiration_event_date|date:"M d, Y"}}
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center align-middle gap-2">
+                                        <a href="{% url 'viewEvent' event.id %}" class="btn btn-primary">
+                                            Consult
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %} {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-body border rounded mb-4">
+                <h4>Last sales</h4>
+                <div class="table-responsive">
+                    <table class="table table-borderless " id="dataTable" width="75%" cellspacing="0">
+                        <tbody>
+                            {% if sales %} {% for sale in sales %}
+                            <tr class='border-bottom'>
+                                <td class="align-middle">{{sale.id_client}}</td>
+                                <td class="align-middle"><strong>Status:</strong> {{sale.status}}</td>
+                                <td class="align-middle"><strong>Process:</strong> {{sale.process_sale_status}}</td>
+                                <td>
+                                    <div class="d-flex justify-content-center align-middle gap-2">
+                                        <a href="{% url 'viewSale' sale.id %}" class="btn btn-primary">
+                                            Consult
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %} {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

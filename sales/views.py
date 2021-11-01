@@ -3,16 +3,21 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import FormContact, FormContactUpdate, FormService, FormServiceUpdate, FormSale, FormSaleUpdate
 from .models import Client, Service, Sale
+from user.views import loginUnder24h
 
 #------------------------------- Service ------------------------------- 
 @login_required
 def service(request):
+    if loginUnder24h(request):
+        return redirect('logout')
     context = Service.objects.filter(status= True)
     return render(request, 'services/services.html', {'context': context})
 
 
 @login_required
 def createService(request):
+    if loginUnder24h(request):
+        return redirect('logout')
     if request.user.is_staff:
         form = FormService()
         if request.method == 'POST':
@@ -32,6 +37,8 @@ def createService(request):
 
 @login_required
 def viewService(request, id):
+    if loginUnder24h(request):
+        return redirect('logout')
     try:
         context = Service.objects.get(id= id)
     except Service.DoesNotExist:        
@@ -42,6 +49,8 @@ def viewService(request, id):
 
 @login_required
 def updateService(request, id):
+    if loginUnder24h(request):
+        return redirect('logout')
     if request.user.is_staff:
         try:
             row = Service.objects.get(id= id)
@@ -67,6 +76,8 @@ def updateService(request, id):
 
 @login_required
 def serviceStatus(request):
+    if loginUnder24h(request):
+        return redirect('logout')
     if request.user.is_staff:
         context = Service.objects.all()
         return render(request, 'services/service_status.html', {'context': context})
@@ -77,6 +88,8 @@ def serviceStatus(request):
 
 @login_required
 def changeServiceStatus(request, id):
+    if loginUnder24h(request):
+        return redirect('logout')
     if request.user.is_staff:
         try:
             context = Service.objects.get(id= id)
@@ -103,6 +116,8 @@ def changeServiceStatus(request, id):
 
 @login_required
 def sales(request):
+    if loginUnder24h(request):
+        return redirect('logout')
     if not request.user.is_staff:
         context = Sale.objects.filter(id_representative= request.user.id)
         return render(request, 'sales/sales.html', {'context': context})
@@ -112,7 +127,9 @@ def sales(request):
 
 
 @login_required
-def createSale(request): 
+def createSale(request):
+    if loginUnder24h(request):
+        return redirect('logout')
     if not request.user.is_staff:
         if request.method == 'POST':
             form = FormSale(request.user,request.POST)
@@ -131,6 +148,8 @@ def createSale(request):
 
 @login_required
 def viewSale(request, id):
+    if loginUnder24h(request):
+        return redirect('logout')
     if not request.user.is_staff:
         try:
             context = Sale.objects.get(id= id)
@@ -146,6 +165,8 @@ def viewSale(request, id):
 
 @login_required
 def updateSale(request, id):
+    if loginUnder24h(request):
+        return redirect('logout')
     if not request.user.is_staff:
         try:
             row = Sale.objects.get(id= id)
@@ -173,6 +194,8 @@ def updateSale(request, id):
 
 @login_required
 def contact(request):
+    if loginUnder24h(request):
+        return redirect('logout')
     if request.user.is_staff:
         context = Client.objects.all()
     else:
@@ -181,7 +204,9 @@ def contact(request):
 
 
 @login_required
-def createContact(request): 
+def createContact(request):
+    if loginUnder24h(request):
+        return redirect('logout')
     if not request.user.is_staff:
         if request.method == 'POST':
             form = FormContact(request.POST) 
@@ -201,6 +226,8 @@ def createContact(request):
 
 @login_required
 def viewContact(request, id):
+    if loginUnder24h(request):
+        return redirect('logout')
     try:
         context = Client.objects.get(id= id)
     except Client.DoesNotExist:        
@@ -215,6 +242,8 @@ def viewContact(request, id):
 
 @login_required
 def updateContact(request, id):
+    if loginUnder24h(request):
+        return redirect('logout')
     if not request.user.is_staff:
         try:
             row = Client.objects.get(id= id)

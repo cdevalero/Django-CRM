@@ -1,12 +1,22 @@
+from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from event.models import Event
+from sales.models import Sale, Service
 from .models import CRMUser
 from .forms import FormRepresentative, FormRepresentativeUpdate
 from .email import send_email, resend_email_representative, send_email_update, send_recovery_password
 
 #------------------------------- Login ------------------------------- 
+
+def loginUnder24h(request):
+	if datetime.now() > request.user.last_login + timedelta(hours=24):
+		messages.error(request, 'Your token session has expired, login to the system again')
+		return True
+	return False
+		
 
 def userLogin(request):
 	if request.method == 'POST':
@@ -37,14 +47,6 @@ def userLogout(request):
     return redirect('login')
 
 
-@login_required
-def userDashboard(request):
-	if request.user.is_staff:
-		return render(request, 'dashboard/admin_dashboard.html')
-	else:
-		return render(request, 'dashboard/representative_dashboard.html')
-
-
 def userRecovery(request):
 	if request.method == 'POST':
 		email = request.POST['email']
@@ -73,10 +75,27 @@ def changePassword(request, email, password):
 
 	return render(request, 'login/change_password.html')
 
+
+@login_required
+def userDashboard(request):
+	if loginUnder24h(request):
+		return redirect('logout')
+	events = Event.objects.filter(expiration_event_date__range= [datetime.today(), datetime.today() + timedelta(days=7)])
+	if request.user.is_staff:	
+		return render(request, 'dashboard/admin_dashboard.html')
+	else:
+		sales = Sale.objects.all()[:5]
+		services = Service.objects.filter(status= True, creation_date__range= [request.user.last_login - timedelta(minutes=1), datetime.today() + timedelta(days=1)])
+		return render(request, 'dashboard/representative_dashboard.html', {'events': events, 'sales': sales, 'services': services, 'day': datetime.today()})
+
+
+
 #------------------------------- Representatives ------------------------------- 
 
 @login_required
 def representatives(request):
+	if loginUnder24h(request):
+		return redirect('logout')
 	if request.user.is_staff:
 		context = CRMUser.objects.filter(status=True, admin_user=False)
 		return render(request, 'representatives/representatives.html', {'context': context})
@@ -87,6 +106,8 @@ def representatives(request):
 
 @login_required
 def createRepresentative(request):
+	if loginUnder24h(request):
+		return redirect('logout')
 	if request.user.is_staff:
 		form = FormRepresentative()
 		if request.method == 'POST':
@@ -108,6 +129,8 @@ def createRepresentative(request):
 
 @login_required
 def updateRepresentative(request, id):
+	if loginUnder24h(request):
+		return redirect('logout')
 	if request.user.is_staff:
 		try:
 			row = CRMUser.objects.get(id= id)
@@ -140,6 +163,8 @@ def updateRepresentative(request, id):
 
 @login_required
 def viewRepresentative(request, id):
+	if loginUnder24h(request):
+		return redirect('logout')
 	if request.user.is_staff:
 		try:
 			context = CRMUser.objects.get(id= id)
@@ -154,6 +179,8 @@ def viewRepresentative(request, id):
 
 @login_required
 def representativeStatus(request):
+	if loginUnder24h(request):
+		return redirect('logout')
 	if request.user.is_staff:
 		context = CRMUser.objects.filter(admin_user=False)
 		return render(request, 'representatives/representatives_status.html', {'context': context})
@@ -164,6 +191,8 @@ def representativeStatus(request):
 
 @login_required
 def changeRepresentativeStatus(request, id):
+	if loginUnder24h(request):
+		return redirect('logout')
 	if request.user.is_staff:
 		try:
 			context = CRMUser.objects.get(id= id)
@@ -188,6 +217,8 @@ def changeRepresentativeStatus(request, id):
 
 @login_required
 def resendMail(request, id):
+	if loginUnder24h(request):
+		return redirect('logout')
 	if request.user.is_staff:
 		try:
 			user = CRMUser.objects.get(id= id)

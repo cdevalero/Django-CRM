@@ -10,6 +10,7 @@ class Service(models.Model):
 	service_description = models.TextField()
 	service_description_agreement = models.TextField()
 	status = models.BooleanField()
+	creation_date = models.DateTimeField(default=now, editable=False, blank=True, null=True)
 
 	def __str__(self):
 		return self.name

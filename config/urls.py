@@ -1,10 +1,10 @@
-from django.contrib import admin
+# from django.contrib import admin
 from django.urls import path, include
 from user.views import userLogin, userLogout, userDashboard, userRecovery, changePassword
 
 urlpatterns = [
 
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
 
     path('login/', userLogin, name='login'),
     path('logout/', userLogout, name='logout'),

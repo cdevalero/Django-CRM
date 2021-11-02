@@ -1,8 +1,178 @@
 {% extends 'sidebar.html' %}
+{% load crispy_forms_tags %}
+{% block headlinks %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+addEventListener('load', async ()=>{
+    await google.charts.load('current', { 'packages': ['geochart', 'line', 'corechart'], });
+    await google.charts.setOnLoadCallback(drawSalesVS);
+    await google.charts.setOnLoadCallback(drawPercentSalesByCountry);
+    await google.charts.setOnLoadCallback(drawPerformanceRepresentative);
+    await google.charts.setOnLoadCallback(drawSalesByCountry);
+    await google.charts.setOnLoadCallback(drawSalesByProcess);
+    await google.charts.setOnLoadCallback(drawSalesByStatus);
+    await google.charts.setOnLoadCallback(drawServiceHighestDemand);
+    let charts = document.getElementsByClassName('see-more');
+    for (chart of charts) {
+       chart.style.display = 'inline-block'
+       console.log('chart')
+    }
+})
+
+// google.charts.load('current', { 'packages': ['geochart', 'line', 'corechart'], });
+// google.charts.setOnLoadCallback(drawSalesVS);
+// google.charts.setOnLoadCallback(drawPercentSalesByCountry);
+// google.charts.setOnLoadCallback(drawPerformanceRepresentative);
+// google.charts.setOnLoadCallback(drawSalesByCountry);
+// google.charts.setOnLoadCallback(drawSalesByProcess);
+// google.charts.setOnLoadCallback(drawSalesByStatus);
+// google.charts.setOnLoadCallback(drawServiceHighestDemand);
+
+function drawSalesVS() {
+    var data = google.visualization.arrayToDataTable([
+        ['Name', 'Sales'],
+        {% if kpi.sales_status %}
+            {% for sale in kpi.sales_status %}
+                {% if sale.status == 'successfully' %}
+                    ['Sales success', {{sale.count}}],
+                {% endif %}
+                {% if sale.status == 'no successfully' %}
+                    ['Sales failed', {{sale.count}}],
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    ]);
+    var options = {
+        title: 'Sales successfully vs Sales failed',
+        slices: {
+            1: { color: '#4285f4' },
+            0: { color: '#ea4335' }
+        },
+    };
+    var chart = new google.visualization.PieChart(document.getElementById('vs_sales'));
+    chart.draw(data, options);
+}
+
+function drawPercentSalesByCountry() {
+    var data = google.visualization.arrayToDataTable([
+        ["Country", "Sales"],
+        {% if kpi.sales_country %}
+            {% for sale in kpi.sales_country %}
+                ['{{sale.country}}', {{sale.count}}],
+            {% endfor %}
+        {% endif %}
+    ]);
+
+    var options = {
+        title: "Percent of sales by country",
+    };
+    var chart = new google.visualization.PieChart(document.getElementById("percent_sales_country"));
+    chart.draw(data, options);
+}
+
+function drawPerformanceRepresentative() {
+    var data = google.visualization.arrayToDataTable([
+        ["Name", "Sales"],
+        {% if kpi.sales_representatives %}
+            {% for sale in kpi.sales_representatives %}
+                ['{{sale.id_representative}}', {{sale.count}}],
+            {% endfor %}
+        {% endif %}
+    ]);
+
+    var options = {
+        title: "Comparative graphics of the performance of the representatives",
+        bar: { groupWidth: "95%" },
+        legend: { position: "none" },
+    };
+    var chart = new google.visualization.ColumnChart(document.getElementById("perfonmance_representative"));
+    chart.draw(data, options);
+}
+
+function drawSalesByCountry() {
+    var data = google.visualization.arrayToDataTable([
+        ['Country', 'Sales'],
+        {% if kpi.sales_country %}
+            {% for sale in kpi.sales_country %}
+                ['{{sale.country}}', {{sale.count}}],
+            {% endfor %}
+        {% endif %}
+    ]);
+
+    var options = {
+        title: 'Estimate sales by countries',
+        //Americas
+        // region: '019', 
+    };
+
+    var chart = new google.visualization.GeoChart(document.getElementById('sales_by_country'));
+
+    chart.draw(data, options);
+}
+
+function drawSalesByProcess() {
+    var data = google.visualization.arrayToDataTable([
+        ['Name', 'Sales'],
+        {% if kpi.sales_process %}
+            {% for sale in kpi.sales_process %}
+                ['{{sale.process_sale_status}}', {{sale.count}}],
+            {% endfor %}
+        {% endif %}
+    ]);
+
+    var options = {
+        title: 'Estimates sales by sales of process status',
+        pieHole: 0.25,
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('sales_by_process'));
+    chart.draw(data, options);
+}
+
+function drawSalesByStatus() {
+    var data = google.visualization.arrayToDataTable([
+        ['Name', 'Sales'],
+        {% if kpi.sales_status %}
+            {% for sale in kpi.sales_status %}
+                ['{{sale.status}}', {{sale.count}}],
+            {% endfor %}
+        {% endif %}
+    ]);
+
+    var options = {
+        title: 'Estimates sales by sales of status',
+        pieHole: 0.25,
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('sales_by_status'));
+    chart.draw(data, options);
+}
+
+function drawServiceHighestDemand() {
+    var data = google.visualization.arrayToDataTable([
+        ["Name", "Sales"],
+        {% if kpi.service_demand %}
+            {% for sale in kpi.service_demand %}
+                ['{{sale.id_service}}', {{sale.count}}],
+            {% endfor %}
+        {% endif %}
+    ]);
+
+    var options = {
+        title: "Services with the highest demand",
+        bar: { groupWidth: "95%" },
+        legend: { position: "none" },
+    };
+    var chart = new google.visualization.ColumnChart(document.getElementById("service_highest_demand"));
+    chart.draw(data, options);
+}
+</script>
+{% endblock headlinks %}
 {% block content %}
-<div class="container-fluid px-3 mt-3">
+<div class="container-fluid px-3 mt-3 pb-5">
     <h1 class="h3 mb-3 text-gray-800">DashBoard</h1>
-    <div class="card shadow mb-4">
+    <div class="">
         <div class="card-body">
             {% if messages %}
             <div class="row mt-3 mb-3">
@@ -15,7 +185,56 @@
                 </div>
             </div>
             {% endif %}
-
+            <div class="row d-flex justify-content-center ">
+                <div class="col-md-6 d-flex flex-column justify-content-center">
+                    <div id="sales_by_process" class="chart"></div>
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="pb-1 see-more" style="display: none" >See more</a>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex flex-column justify-content-center">
+                    <div id="sales_by_status" class="chart"></div>
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="pb-1 see-more" style="display: none" >See more</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center  mt-4 ">
+                <div class="col-md-6 d-flex flex-column justify-content-center">
+                    <div id="vs_sales" class="chart"></div>
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="pb-1 see-more" style="display: none"  >See more</a>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex flex-column justify-content-center">
+                    <div id="service_highest_demand" class="chart"></div>
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="pb-1 see-more" style="display: none"  >See more</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center mt-4 mb-5">
+                <div class="col-md-6 d-flex flex-column justify-content-center">
+                    <div id="percent_sales_country" class="chart"></div>
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="pb-1 see-more" style="display: none"  >See more</a>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex flex-column justify-content-center">
+                    <div id="perfonmance_representative" class="chart"></div>
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="pb-1 see-more" style="display: none"  >See more</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-12 d-flex flex-column justify-content-center">
+                    <div id="sales_by_country" class="chart"></div>
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="pb-1 see-more" style="display: none"  >See more</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

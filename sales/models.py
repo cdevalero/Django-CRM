@@ -48,7 +48,7 @@ class Sale(models.Model):
 	STATUS = (
 		('successfully','successfully'),
 		('in process','in process'),
-		('no successfully.','no successfully'),
+		('no successfully','no successfully'),
 	)
 
 	description = models.TextField()
@@ -66,6 +66,5 @@ class Sale(models.Model):
 
 	def formart_contract(self):
 		return self.contract_start.strftime("%d-%m-%Y") + ' / ' + self.contract_end.strftime("%d-%m-%Y")
-
 
 

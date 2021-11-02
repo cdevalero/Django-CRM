@@ -109,7 +109,7 @@ LOGIN_URL = 'login'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/Caracas'
+TIME_ZONE = os.environ.get('TIME')
 
 USE_I18N = True
 

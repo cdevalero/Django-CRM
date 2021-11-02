@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from event.models import Event
 from sales.models import Sale, Service
 from .models import CRMUser
@@ -76,13 +77,33 @@ def changePassword(request, email, password):
 	return render(request, 'login/change_password.html')
 
 
+def kpi_data():
+	service_demand = Sale.objects.values('id_service').annotate(count=Count('id_service')).order_by()
+	for row in service_demand:
+		row['id_service'] = Service.objects.get(id= row['id_service']).name
+
+	sales_representatives = Sale.objects.values('id_representative').annotate(count=Count('id_representative')).order_by()
+	for row in sales_representatives:
+		row['id_representative'] = CRMUser.objects.get(id= row['id_representative']).user_email
+
+	context = {
+		'sales_representatives': sales_representatives,
+		'sales_country': Sale.objects.values('country').annotate(count=Count('country')).order_by(),
+		'sales_process': Sale.objects.values('process_sale_status').annotate(count=Count('process_sale_status')).order_by(),
+		'sales_status': Sale.objects.values('status').annotate(count=Count('status')).order_by(),
+		'service_demand': service_demand,
+	}
+	return context
+
+
 @login_required
 def userDashboard(request):
 	if loginUnder24h(request):
 		return redirect('logout')
 	events = Event.objects.filter(expiration_event_date__range= [datetime.today(), datetime.today() + timedelta(days=7)])
-	if request.user.is_staff:	
-		return render(request, 'dashboard/admin_dashboard.html')
+	if request.user.is_staff:
+		kpi = kpi_data()
+		return render(request, 'dashboard/admin_dashboard.html', {'kpi': kpi})
 	else:
 		sales = Sale.objects.all()[:5]
 		services = Service.objects.filter(status= True, creation_date__range= [request.user.last_login - timedelta(minutes=1), datetime.today() + timedelta(days=1)])

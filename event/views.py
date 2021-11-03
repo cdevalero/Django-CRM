@@ -10,10 +10,11 @@ from user.views import loginUnder24h
 def events(request):
 	if loginUnder24h(request):
 		return redirect('logout')
-	if request.user.is_staff:
-		context = Event.objects.all()
-	else:
-		context = Event.objects.filter(id_user= request.user.id)
+	# if request.user.is_staff:
+	# 	context = Event.objects.all()
+	# else:
+	# 	context = Event.objects.filter(id_user= request.user.id)
+	context = Event.objects.filter(id_user= request.user.id)
 	return render(request, 'calendar/calendar.html', {'context': context})
 
 

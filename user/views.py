@@ -100,10 +100,10 @@ def kpi_data():
 def userDashboard(request):
 	if loginUnder24h(request):
 		return redirect('logout')
-	events = Event.objects.filter(expiration_event_date__range= [datetime.today(), datetime.today() + timedelta(days=7)])
+	events = Event.objects.filter(id_user= request.user.id, expiration_event_date__range= [datetime.today(), datetime.today() + timedelta(days=7)])
 	if request.user.is_staff:
 		kpi = kpi_data()
-		return render(request, 'dashboard/admin_dashboard.html', {'kpi': kpi})
+		return render(request, 'dashboard/admin_dashboard.html', {'events': events, 'kpi': kpi})
 	else:
 		sales = Sale.objects.all()[:5]
 		services = Service.objects.filter(status= True, creation_date__range= [request.user.last_login - timedelta(minutes=1), datetime.today() + timedelta(days=1)])

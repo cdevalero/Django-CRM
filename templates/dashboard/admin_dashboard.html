@@ -185,6 +185,30 @@ function drawServiceHighestDemand() {
                 </div>
             </div>
             {% endif %}
+            <div class="card-body border rounded mb-4">
+                <h4>Upcoming events</h4>
+                <div class="table-responsive">
+                    <table class="table table-borderless " id="dataTable" width="75%" cellspacing="0">
+                        <tbody>
+                            {% if events %} {% for event in events %}
+                            <tr class='border-bottom'>
+                                <td class="align-middle">{{event.event_title}}</td>
+                                <td class="align-middle">
+                                    Expiration date: {{event.expiration_event_date|date:"M d, Y"}}
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center align-middle gap-2">
+                                        <a href="{% url 'viewEvent' event.id %}" class="btn btn-primary">
+                                            Consult
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %} {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <div class="row d-flex justify-content-center ">
                 <div class="col-md-6 d-flex flex-column justify-content-center">
                     <div id="sales_by_process" class="chart"></div>

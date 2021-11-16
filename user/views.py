@@ -105,7 +105,7 @@ def userDashboard(request):
 		kpi = kpi_data()
 		return render(request, 'dashboard/admin_dashboard.html', {'events': events, 'kpi': kpi})
 	else:
-		sales = Sale.objects.all()[:5]
+		sales = Sale.objects.filter(id_representative= request.user.id)[:5]
 		services = Service.objects.filter(status= True, creation_date__range= [request.user.last_login - timedelta(minutes=1), datetime.today() + timedelta(days=1)])
 		return render(request, 'dashboard/representative_dashboard.html', {'events': events, 'sales': sales, 'services': services, 'day': datetime.today()})
 

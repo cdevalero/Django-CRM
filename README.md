@@ -12,3 +12,13 @@
     * `SERVER_NAME` - name of the server
 6. Migrate - `py manage.py migrate`
 7. Run the Application - `python manage.py runserver`
+
+### Reference images
+
+<img src="/img/Dashboard.jpeg" alt="Dashboard"/>
+
+<img src="/img/Create.jpeg" alt="Create"/>
+
+<img src="/img/List.jpeg" alt="List"/>
+
+<img src="/img/Update.jpeg" alt="Update"/>
